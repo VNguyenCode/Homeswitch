@@ -12,6 +12,21 @@ app.use(bodyParser.json({type : '*/*'})); // parse incoming requests - does it f
 
 app.use('/signup', authrouter)
 
+
+
+//Global error handler 
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown error',
+    status: 400,
+    message: { err: 'an error occured' },
+  };
+
+  const errorObj = Object.assign(defaultErr, err);
+  console.log('error', errorObj.log);
+  res.status(errorObj.status || 500).send(errorObj.message);
+});
+
 //Server Setup
 const server = http.createServer(app)
 const port = 3000;

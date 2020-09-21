@@ -1,3 +1,6 @@
+const db = require("../controllers/authcontroller.js")
+
+
 const authcontroller = {};
 
 authcontroller.signup = (req, res, next) => {

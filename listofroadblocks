@@ -1,0 +1,2 @@
+1. Error: Route.post() requires a callback function but got a [object Undefined]
+    // because you need module.exports rather than module.export in authcontroller 
