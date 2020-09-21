@@ -6,6 +6,10 @@ const morgan = require('morgan');
 const app = express();
 const authrouter = require('./authrouter')
 
+//Server Setup
+const server = http.createServer(app)
+const port = 3000;
+
 //App Setup
 app.use(morgan('combined')); // logging framework for incoming requests, used for debugging 
 app.use(bodyParser.json({type : '*/*'})); // parse incoming requests - does it for JSON 
@@ -26,10 +30,6 @@ app.use((err, req, res, next) => {
   console.log('error', errorObj.log);
   res.status(errorObj.status || 500).send(errorObj.message);
 });
-
-//Server Setup
-const server = http.createServer(app)
-const port = 3000;
 
 // Server listening
 server.listen(port, () => console.log(`Currently listening on port ${port}`));
