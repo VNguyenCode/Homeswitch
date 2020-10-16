@@ -1,5 +1,5 @@
 const db = require('../db');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
 const authcontroller = {};
 
@@ -21,11 +21,9 @@ authcontroller.verify = (req, res, next) => {
     .then((users) => {
       // if a user with email does exist return error
       if (users.rows.length !== 0) {
-        console.log('I here');
         res.locals.exists = true;
         return next();
       } else {
-        console.log('we here');
         res.locals.exists = false;
         return next();
       }
@@ -39,28 +37,27 @@ authcontroller.verify = (req, res, next) => {
     );
 };
 
-
-authcontroller.bcrypt = (req,res,next) => {
+//BCrypt to save a password
+authcontroller.bcrypt = (req, res, next) => {
+  if (res.locals.exists) return next();
   const password = req.body.password;
-
   const saltRounds = 10;
-
-  bcrypt.genSalt(saltRounds, (err,salt) => {
+  bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) return next(err);
-    bcrypt.hash(password,salt, (err,hash) => {
+    bcrypt.hash(password, salt, (err, hash) => {
       if (err) return next(err);
-      res.locals.hash = hash
-      return next()
-    })
-  })
-}
+      res.locals.hash = hash;
+      return next();
+    });
+  });
+};
 
 authcontroller.save = (req, res, next) => {
   if (res.locals.exists) return next();
 
   const email = req.body.email;
   // const password = req.body.password;
-  const hash = res.locals.hash
+  const hash = res.locals.hash;
 
   const query =
     'INSERT INTO users (email, password) VALUES ($1, $2) RETURNING *';
