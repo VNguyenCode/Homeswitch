@@ -1,0 +1,5 @@
+1. Error: Route.post() requires a callback function but got a [object Undefined]
+    // because you need module.exports rather than module.export in authcontroller 
+
+2. What is JSON Web Token? When signing up, give a token in exchange for an id
+   // User ID + Our Secret String 
